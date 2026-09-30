@@ -512,3 +512,44 @@
 .lb-drop-line.lb-drop-after::after { bottom: -1px; }
 
 .lb-navrow.lb-dragging { opacity: 0.4; }
+
+/* ---------------------------------------------------------------------------
+   Books rows and the Add button on a phone (latulip fork)
+   ---------------------------------------------------------------------------
+   Unlayered on purpose: these have to beat the Tailwind utilities written on
+   the same elements (truncate, text-[16.5px], w-[30px]), and utilities sit in
+   a later layer than components. Everything outside the container query is
+   the wide layout, which stays exactly as upstream draws it. */
+.books-row-author,
+.books-row-details,
+.books-fab        { display: none; }
+.books-row-side   { display: contents; }
+
+@container shell (width < 64rem) {
+  .books-page             { padding-bottom: 6rem; }
+  .books-actions .books-add-btn { display: none; }
+
+  .lb-rowitem             { gap: 14px; padding: 12px 2px; align-items: center; }
+  .books-row-cover > *    { width: 48px; }
+  .books-row-title        {
+    font-size: 20px; line-height: 1.2;
+    white-space: normal; display: -webkit-box;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .books-row-meta         { display: none; }
+  .books-row-author       { display: block; margin-top: 3px; font-size: 14.5px; }
+  .books-row-details      { display: flex; margin-top: 6px; font-size: 13px; }
+  .books-row-side         { display: none; }
+  .lb-rowitem .books-row-details .stars { min-width: 0; text-align: left; }
+
+  .books-fab {
+    display: grid; place-items: center;
+    position: fixed; z-index: 30;
+    right: calc(1.25rem + env(safe-area-inset-right, 0px));
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    width: 3.5rem; height: 3.5rem; border-radius: 999px; border: 0;
+    background: var(--color-accent); color: #fff;
+    box-shadow: 0 6px 18px -4px rgb(0 0 0 / 0.45);
+  }
+  .books-fab:active { transform: scale(0.94); }
+}

@@ -113,7 +113,8 @@
     "done_selecting": "完了",
     "select_series": "{{name}} の全巻を選択",
     "filter": "絞り込み",
-    "show_results": "結果を表示"
+    "show_results": "結果を表示",
+    "pages": "{{pages}}ページ"
   },
   "facets": {
     "library": "ライブラリ",

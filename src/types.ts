@@ -126,6 +126,8 @@ export interface Book {
   shelves: BookShelfRef[]
   publisher: string
   publish_year: number | null
+  /** Primary edition's page count. Sent by the latulip API fork; absent upstream. */
+  page_count?: number | null
   language: string
   /**
    * Where this book stands in relation to you: on the shelf, on a wishlist,

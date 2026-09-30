@@ -114,7 +114,8 @@
     "done_selecting": "Terminé",
     "select_series": "Sélectionner tous les tomes de {{name}}",
     "filter": "Filtrer",
-    "show_results": "Voir les résultats"
+    "show_results": "Voir les résultats",
+    "pages": "{{pages}} p."
   },
   "facets": {
     "library": "Bibliothèque",

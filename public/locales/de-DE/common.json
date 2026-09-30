@@ -114,7 +114,8 @@
     "done_selecting": "Fertig",
     "select_series": "Alle Bände von {{name}} auswählen",
     "filter": "Filtern",
-    "show_results": "Ergebnisse anzeigen"
+    "show_results": "Ergebnisse anzeigen",
+    "pages": "{{pages}} S."
   },
   "facets": {
     "library": "Bibliothek",

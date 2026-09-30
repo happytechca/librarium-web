@@ -114,7 +114,8 @@
     "done_selecting": "Listo",
     "select_series": "Seleccionar todos los tomos de {{name}}",
     "filter": "Filtrar",
-    "show_results": "Ver resultados"
+    "show_results": "Ver resultados",
+    "pages": "{{pages}} pág."
   },
   "facets": {
     "library": "Biblioteca",

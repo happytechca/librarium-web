@@ -114,7 +114,8 @@
     "done_selecting": "Done",
     "select_series": "Select every volume of {{name}}",
     "filter": "Filter",
-    "show_results": "Show results"
+    "show_results": "Show results",
+    "pages": "{{pages}} pp."
   },
   "facets": {
     "library": "Library",

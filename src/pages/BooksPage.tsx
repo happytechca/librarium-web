@@ -871,7 +871,7 @@ export default function BooksPage() {
             {t('inventory.title', { defaultValue: 'Inventory' })}
           </Link>
           <button type="button" onClick={() => setAdding(true)}
-            className="lb-btn sm">
+            className="books-add-btn lb-btn sm">
             {t('books.add', { defaultValue: 'Add book' })}
           </button>
 
@@ -961,6 +961,18 @@ export default function BooksPage() {
             onClear={() => apply(clearAll(state))}
           />
         </SidePanel>
+
+        {/* Add book as a round + in the corner, on a phone only. Hidden while
+            selecting, when the bottom of the screen belongs to the bulk bar. */}
+        {!selecting && (
+          <button type="button" className="books-fab" onClick={() => setAdding(true)}
+            aria-label={t('books.add', { defaultValue: 'Add book' })}
+            title={t('books.add', { defaultValue: 'Add book' })}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
+          </button>
+        )}
 
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-[13rem_1fr]">
           <aside className="books-rail">
@@ -1204,13 +1216,15 @@ export default function BooksPage() {
                           t={t}
                         />
                       )}
-                      <BookCoverThumb
-                        title={entry.series_name}
-                        coverUrl={entry.cover_url}
-                        seed={entry.series_name}
-                      />
+                      <span className="books-row-cover flex-none">
+                        <BookCoverThumb
+                          title={entry.series_name}
+                          coverUrl={entry.cover_url}
+                          seed={entry.series_name}
+                        />
+                      </span>
                       <span className="min-w-0 flex-1">
-                        <span className="lb-display block truncate text-[16.5px] leading-tight text-content">
+                        <span className="books-row-title lb-display block truncate text-[16.5px] leading-tight text-content">
                           {entry.series_name}
                         </span>
                         <span className="block truncate text-[11px] text-content-tertiary">
@@ -1240,28 +1254,47 @@ export default function BooksPage() {
                       {selecting && (
                         <SelectBox book={entry.book} picked={picked} onToggle={togglePick} t={t} />
                       )}
-                      <BookCoverThumb
-                        title={entry.book.title}
-                        coverUrl={entry.book.cover_url}
-                        readStatus={entry.book.user_read_status}
-                        ownership={entry.book.ownership}
-                        seed={coverSeed(entry.book)}
-                      />
+                      <span className="books-row-cover flex-none">
+                        <BookCoverThumb
+                          title={entry.book.title}
+                          coverUrl={entry.book.cover_url}
+                          readStatus={entry.book.user_read_status}
+                          ownership={entry.book.ownership}
+                          seed={coverSeed(entry.book)}
+                        />
+                      </span>
                       <span className="min-w-0 flex-1">
-                        <span className="lb-display block truncate text-[16.5px] leading-tight text-content">
+                        <span className="books-row-title lb-display block truncate text-[16.5px] leading-tight text-content">
                           {entry.book.title}
                         </span>
-                        <span className="block truncate text-[11px] text-content-tertiary">
+                        <span className="books-row-meta block truncate text-[11px] text-content-tertiary">
                           {[
                             entry.book.contributors?.[0]?.name,
                             entry.book.publish_year || null,
                             entry.book.media_type,
                           ].filter(Boolean).join(' · ')}
                         </span>
+                        {/* Phone rows (latulip): author on its own line, then
+                            pages, year and the read status, stacked under the
+                            title the way a shelf app lays a book out. */}
+                        <span className="books-row-author truncate text-content-secondary">
+                          {entry.book.contributors?.[0]?.name}
+                        </span>
+                        <span className="books-row-details items-center gap-2 text-content-tertiary">
+                          {entry.book.page_count ? (
+                            <span className="flex-none">{t('books.pages', { pages: entry.book.page_count, defaultValue: `${entry.book.page_count} p.` })}</span>
+                          ) : null}
+                          {entry.book.page_count && entry.book.publish_year ? <span aria-hidden="true">·</span> : null}
+                          {entry.book.publish_year ? <span className="flex-none">{entry.book.publish_year}</span> : null}
+                          <StatusChip book={entry.book} t={t} />
+                          <RowStars rating={entry.book.user_rating ?? 0} />
+                        </span>
                       </span>
-                      <MultiLibraryBadge book={entry.book} t={t} />
-                      <StatusChip book={entry.book} t={t} />
-                      <RowStars rating={entry.book.user_rating ?? 0} />
+                      <span className="books-row-side">
+                        <MultiLibraryBadge book={entry.book} t={t} />
+                        <StatusChip book={entry.book} t={t} />
+                        <RowStars rating={entry.book.user_rating ?? 0} />
+                      </span>
                     </div>
                   </li>
                   )}

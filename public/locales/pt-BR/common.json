@@ -114,7 +114,8 @@
     "done_selecting": "Pronto",
     "select_series": "Selecionar todos os volumes de {{name}}",
     "filter": "Filtrar",
-    "show_results": "Ver resultados"
+    "show_results": "Ver resultados",
+    "pages": "{{pages}} p."
   },
   "facets": {
     "library": "Biblioteca",
