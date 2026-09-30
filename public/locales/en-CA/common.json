@@ -112,7 +112,9 @@
     "one_series": "One series",
     "select": "Select",
     "done_selecting": "Done",
-    "select_series": "Select every volume of {{name}}"
+    "select_series": "Select every volume of {{name}}",
+    "filter": "Filter",
+    "show_results": "Show results"
   },
   "facets": {
     "library": "Library",

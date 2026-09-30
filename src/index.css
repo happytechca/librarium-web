@@ -361,11 +361,35 @@
   .app-scrim      { display: block; }
   .app-footer     { display: none; }
 
+  /* Phone layout for the page chrome and Books (latulip fork). Padding lives
+     here rather than in px-/py- utilities so the container query can change
+     it: utilities sit in a later layer and would always win. */
+  .page-header       { padding: 0.75rem 1rem; }
+  .page-header-desc  { display: none; }
+  .books-page        { padding: 0.75rem 1rem 1.5rem; }
+  .books-toolbar     { margin-bottom: 0.75rem; }
+  .books-searchrow   { flex: 1 1 100%; min-width: 0; }
+  .books-filter-btn  { display: inline-flex; flex: none; }
+  .books-spacer      { display: none; }
+  .books-actions     { width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .books-actions::-webkit-scrollbar { display: none; }
+  .books-actions > * { flex: none; }
+  .books-rail        { display: none; }
+
   @container shell (min-width: 64rem) {
     .app-shell-body { flex-direction: row; }
     .app-topbar     { display: none; }
     .app-scrim      { display: none; }
     .app-footer     { display: block; }
+    .page-header      { padding: 1rem 2rem; }
+    .page-header-desc { display: block; }
+    .books-page       { padding: 1.5rem 2rem; }
+    .books-toolbar    { margin-bottom: 1.5rem; }
+    .books-searchrow  { flex: 1 1 0%; min-width: 14rem; max-width: 32rem; }
+    .books-filter-btn { display: none; }
+    .books-spacer     { display: block; }
+    .books-actions    { width: auto; overflow-x: visible; }
+    .books-rail       { display: block; }
     .app-sidebar {
       position: static;
       /* 238px is the reference rail's width. At 14rem the rail was 14px

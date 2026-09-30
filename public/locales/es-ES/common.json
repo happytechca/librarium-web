@@ -112,7 +112,9 @@
     "one_series": "Una serie",
     "select": "Seleccionar",
     "done_selecting": "Listo",
-    "select_series": "Seleccionar todos los tomos de {{name}}"
+    "select_series": "Seleccionar todos los tomos de {{name}}",
+    "filter": "Filtrar",
+    "show_results": "Ver resultados"
   },
   "facets": {
     "library": "Biblioteca",

@@ -18,7 +18,7 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, description, breadcrumbs, actions }: PageHeaderProps) {
   return (
-    <div className="sticky top-0 z-20 flex-shrink-0 bg-surface border-b border-line px-8 py-4">
+    <div className="page-header sticky top-0 z-20 flex-shrink-0 bg-surface border-b border-line">
       {breadcrumbs && breadcrumbs.length > 0 && (
         <nav className="flex items-center gap-2 text-sm flex-wrap mb-1" aria-label="Breadcrumb">
           {breadcrumbs.map((crumb, i) => (
@@ -44,7 +44,7 @@ export default function PageHeader({ title, description, breadcrumbs, actions }:
               else in this component: chrome stays on the system stack. */}
           <h1 className="font-display text-2xl font-semibold text-content text-balance">{title}</h1>
           {description && (
-            <p className="font-read mt-0.5 text-[15px] leading-snug text-content-muted max-w-[62ch]">
+            <p className="page-header-desc font-read mt-0.5 text-[15px] leading-snug text-content-muted max-w-[62ch]">
               {description}
             </p>
           )}

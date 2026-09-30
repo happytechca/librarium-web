@@ -20,6 +20,7 @@ import { PromptDialog, type PromptExtras } from '../components/Dialog'
 import { TAG_COLORS } from '../lib/tagColours'
 import AddBooksDialog from '../components/addBooks/AddBooksDialog'
 import FacetRail from '../components/FacetRail'
+import SidePanel from '../components/SidePanel'
 import FilterSearch from '../components/FilterSearch'
 import BookBulkBar from '../components/BookBulkBar'
 import LibraryPickerDialog from '../components/LibraryPickerDialog'
@@ -345,6 +346,8 @@ export default function BooksPage() {
   const [adopted, setAdopted] = useState<string | null>(null)
   const [naming, setNaming] = useState(false)
   const [adding, setAdding] = useState(false)
+  // The filter rail as a panel, on the narrow shell where the rail is hidden.
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   // Fetched only when the modal opens. Books is a read surface; making every
   // visit pay for the media types and libraries an add would need is a cost
@@ -816,16 +819,19 @@ export default function BooksPage() {
         })}
       />
 
-      <div className="px-8 py-6">
+      <div className="books-page">
         {/* Search on the left, the page's own actions on the right, one line.
             They used to sit in the row below with the view chip, the count and
             a chip per filter, which is a row that grows: every filter ticked
             and every unsaved change pushed the buttons onto a second line and
             then a third. Nothing here depends on which view is open, so
             nothing here belongs in that row. */}
-        <div className="mb-6 flex flex-wrap items-center gap-2">
+        <div className="books-toolbar flex flex-wrap items-center gap-2">
+        {/* Search and, on a phone, the Filter button that stands in for the
+            rail: one line, so the books start right under it. */}
+        <div className="books-searchrow flex items-center gap-2">
         <FilterSearch
-          className="min-w-[14rem] max-w-lg flex-1"
+          className="min-w-0 flex-1"
           value={draftQuery}
           onChange={setDraftQuery}
           onCommitText={text => { setDraftQuery(text); apply({ ...state, query: text, page: 1 }) }}
@@ -843,8 +849,24 @@ export default function BooksPage() {
             apply({ ...state, contributors: [...state.contributors, id], page: 1 })
           }}
         />
+          <button type="button" onClick={() => setFiltersOpen(true)}
+            className={`books-filter-btn items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors ${
+              activeFilters > 0
+                ? 'border-accent bg-accent text-white'
+                : 'border-line-strong text-content-secondary hover:bg-surface-inset'
+            }`}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2 3h12l-4.5 5.5V13l-3 1.5V8.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+            {t('books.filter', { defaultValue: 'Filter' })}
+            {activeFilters > 0 && <span className="tabular-nums">· {activeFilters}</span>}
+          </button>
+        </div>
 
-          <span className="flex-1" />
+          <span className="books-spacer flex-1" />
+          {/* The page's own actions. On a phone they share one line that
+              scrolls sideways instead of wrapping into three. */}
+          <div className="books-actions flex items-center gap-2">
           <Link to={`/inventory${params.get('lib') ? `?lib=${params.get('lib')}` : ''}`} className="lb-btn ghost sm">
             {t('inventory.title', { defaultValue: 'Inventory' })}
           </Link>
@@ -916,10 +938,32 @@ export default function BooksPage() {
               </button>
             ))}
           </div>
+          </div>
         </div>
 
+        <SidePanel
+          open={filtersOpen}
+          title={t('books.filter', { defaultValue: 'Filter' })}
+          width="narrow"
+          onClose={() => setFiltersOpen(false)}
+          footer={<>
+            <span />
+            <button type="button" className="lb-btn sm" onClick={() => setFiltersOpen(false)}>
+              {t('books.show_results', { defaultValue: 'Show results' })}
+            </button>
+          </>}
+        >
+          <FacetRail
+            facets={facets}
+            selection={state.selection}
+            loading={loading}
+            onToggle={(key: FacetKey, value: string) => apply(toggle(state, key, value))}
+            onClear={() => apply(clearAll(state))}
+          />
+        </SidePanel>
+
         <div className="grid gap-7 lg:grid-cols-[13rem_1fr]">
-          <aside>
+          <aside className="books-rail">
             <FacetRail
               facets={facets}
               selection={state.selection}

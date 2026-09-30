@@ -111,7 +111,9 @@
     "one_series": "1つのシリーズ",
     "select": "選択",
     "done_selecting": "完了",
-    "select_series": "{{name}} の全巻を選択"
+    "select_series": "{{name}} の全巻を選択",
+    "filter": "絞り込み",
+    "show_results": "結果を表示"
   },
   "facets": {
     "library": "ライブラリ",
