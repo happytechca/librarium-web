@@ -949,8 +949,9 @@ export default function Layout() {
         onSubmit={saveNewList}
       />
 
-      {/* Footer */}
-      <footer className="flex-shrink-0 border-t border-line bg-surface px-4 py-2.5 text-xs text-content-muted">
+      {/* Footer. Wide shell only: on a phone it eats a strip of an already
+          short screen, so .app-footer hides it below the shell breakpoint. */}
+      <footer className="app-footer flex-shrink-0 border-t border-line bg-surface px-4 py-2.5 text-xs text-content-muted">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
             <span className="font-medium text-content-tertiary">{t('app.name')}</span>

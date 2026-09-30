@@ -359,11 +359,13 @@
   .app-topbar     { display: flex; }
   .app-sidebar    { position: fixed; inset-block: 0; left: 0; z-index: 40; width: 16rem; }
   .app-scrim      { display: block; }
+  .app-footer     { display: none; }
 
   @container shell (min-width: 64rem) {
     .app-shell-body { flex-direction: row; }
     .app-topbar     { display: none; }
     .app-scrim      { display: none; }
+    .app-footer     { display: block; }
     .app-sidebar {
       position: static;
       /* 238px is the reference rail's width. At 14rem the rail was 14px
