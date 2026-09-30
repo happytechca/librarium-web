@@ -507,6 +507,7 @@
     "add_failed": "Impossible d'ajouter un exemplaire.",
     "remove_failed": "Impossible de retirer cet exemplaire.",
     "remove_confirm": "Retirer cet exemplaire ? Le livre reste dans la bibliothèque si vous en avez un autre.",
+    "book_gone": "« {{title}} » n’est plus dans la bibliothèque.",
     "conditions": {
       "new": "Neuf",
       "fine": "Excellent",

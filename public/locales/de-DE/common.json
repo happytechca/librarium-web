@@ -507,6 +507,7 @@
     "add_failed": "Es konnte kein Exemplar hinzugefügt werden.",
     "remove_failed": "Dieses Exemplar konnte nicht entfernt werden.",
     "remove_confirm": "Dieses Exemplar entfernen? Das Buch bleibt in der Bibliothek, wenn du noch ein weiteres hast.",
+    "book_gone": "„{{title}}“ ist nicht mehr in der Bibliothek.",
     "conditions": {
       "new": "Neu",
       "fine": "Wie neu",

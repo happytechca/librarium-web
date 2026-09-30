@@ -507,6 +507,7 @@
     "add_failed": "No se pudo añadir un ejemplar.",
     "remove_failed": "No se pudo quitar ese ejemplar.",
     "remove_confirm": "¿Quitar este ejemplar? Si tienes otro, el libro sigue en la biblioteca.",
+    "book_gone": "«{{title}}» ya no está en la biblioteca.",
     "conditions": {
       "new": "Nuevo",
       "fine": "Como nuevo",

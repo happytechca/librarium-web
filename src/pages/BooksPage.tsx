@@ -11,7 +11,7 @@
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useNavigationType, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { announceCollectionChanged } from '../lib/collectionEvents'
+import { COLLECTION_CHANGED, announceCollectionChanged } from '../lib/collectionEvents'
 import { formatStars, starsOf } from '../lib/rating'
 import { Stars } from '../components/StarRating'
 import { useAuth } from '../auth/AuthContext'
@@ -507,6 +507,17 @@ export default function BooksPage() {
   // A write does not change the filter, so nothing in the URL tells the fetch
   // to run again. This does.
   const [reloadNonce, setReloadNonce] = useState(0)
+
+  // Books added anywhere show up here without a reload: this page's own Add,
+  // the USB scanner's dialog (opened by the shell, not by this page), an Undo.
+  // Re-running the current query rather than pushing the new book into the
+  // list by hand: it may not match the filter on screen, and a book that
+  // appears where it does not belong is worse than one that needs a moment.
+  useEffect(() => {
+    const again = () => setReloadNonce(n => n + 1)
+    window.addEventListener(COLLECTION_CHANGED, again)
+    return () => window.removeEventListener(COLLECTION_CHANGED, again)
+  }, [])
 
   const fetchKey = `${params.toString()}|${perPage}|${reloadNonce}|${lang}`
   const [loadedKey, setLoadedKey] = useState<string | null>(null)
@@ -1158,9 +1169,9 @@ export default function BooksPage() {
                         })
                   )
                   clearPicked()
-                  setReloadNonce(n => n + 1)
-                  // The rail's own counts live in the shell, which has no idea
-                  // a write happened here. Without this the sidebar kept saying
+                  // Reloads this list (the listener above) and the rail, whose
+                  // counts live in the shell, which has no idea a write
+                  // happened here. Without it the sidebar kept saying
                   // "Signed copies 10" beside a facet reading 11.
                   announceCollectionChanged()
                 }}
@@ -1474,11 +1485,7 @@ export default function BooksPage() {
           onClose={() => setAdding(false)}
           onSaved={() => {
             setAdding(false)
-            // Re-run the current query rather than pushing the new book into
-            // the list by hand: it may not match the filter on screen, and a
-            // book that appears where it does not belong is worse than one
-            // that needs a moment to show up.
-            setLoadedKey(null)
+            // Reloads this list (the listener above) as well as the rail.
             announceCollectionChanged()
           }}
         />

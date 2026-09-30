@@ -507,6 +507,7 @@
     "add_failed": "Could not add a copy.",
     "remove_failed": "Could not remove that copy.",
     "remove_confirm": "Remove this copy? The book stays in the library if you have another.",
+    "book_gone": "{{title}} is no longer in the library.",
     "conditions": {
       "new": "New",
       "fine": "Fine",

@@ -333,7 +333,7 @@ function ReadingPanel({ bookId }: { bookId: string }) {
  * vocabulary and the library's locations are the same for every copy, and
  * fetching them per card would be one request per printing for one answer.
  */
-function useCopies(bookId: string, libraryId: string, onChanged?: () => void) {
+function useCopies(bookId: string, libraryId: string, onChanged?: (left: Copy[]) => void) {
   const { callApi } = useAuth()
   const { t } = useTranslation()
   const [copies, setCopies] = useState<Copy[]>([])
@@ -365,15 +365,19 @@ function useCopies(bookId: string, libraryId: string, onChanged?: () => void) {
     return () => { cancelled = true }
   }, [fetchAll])
 
-  const reload = useCallback(async () => { apply(await fetchAll()) }, [fetchAll])
+  /** Resolves to the copies now held, so a caller can tell the last one went. */
+  const reload = useCallback(async () => {
+    const d = await fetchAll()
+    apply(d)
+    return d.copies
+  }, [fetchAll])
 
   const run = async (work: () => Promise<unknown>, failure: string) => {
     setBusy(true)
     try {
       await work()
       setError(null)
-      await reload()
-      onChanged?.()
+      onChanged?.(await reload())
     } catch (e) {
       setError(e instanceof ApiError ? e.message : failure)
     } finally { setBusy(false) }
@@ -1632,10 +1636,20 @@ export default function BookPage() {
   const [coverUploading, setCoverUploading] = useState(false)
   const coverInputRef = useRef<HTMLInputElement>(null)
 
+  // With no copy left here the book is no longer in this library, so it has
+  // left Books too and its page is an empty shell. Back to the list then, with
+  // a word so the jump doesn't read as something going wrong.
+  const heldHere = (copies: Copy[]) => copies.some(c => c.library_id === libraryId)
+  const backToBooks = () => {
+    announceCollectionChanged()
+    if (book) toast.show(t('copies.book_gone', { title: book.title }))
+    navigate('/books', { replace: true })
+  }
+
   // One fetch for the whole page: the conditions vocabulary and the library's
   // locations are the same for every printing, so asking per card would be one
   // request per edition for one answer.
-  const copyControls = useCopies(bookId ?? '', libraryId ?? '')
+  const copyControls = useCopies(bookId ?? '', libraryId ?? '', left => { if (!heldHere(left)) backToBooks() })
   const unattributedCopies = copyControls.copies.filter(c => !c.edition_id)
 
   const load = useCallback(async () => {
@@ -1654,6 +1668,7 @@ export default function BookPage() {
       setEditions(eds ?? [])
       setBookLists(lsts?.items ?? [])
       setSeriesRefs(srs ?? [])
+      return eds ?? []
     } catch (err) {
       if (err instanceof ApiError && err.status === 404) {
         navigate(`/libraries/${libraryId}`, { replace: true })
@@ -1664,6 +1679,13 @@ export default function BookPage() {
   }, [callApi, libraryId, bookId, navigate])
 
   useEffect(() => { load() }, [load])
+
+  // Copies of a deleted edition stay, filed under no edition, so they are read
+  // again too. Nothing left of either means the book has nothing here.
+  const editionDeleted = async () => {
+    const [eds, left] = await Promise.all([load(), copyControls.reload()])
+    if (eds?.length === 0 && !heldHere(left)) backToBooks()
+  }
 
   useEffect(() => {
     if (book) setExtraCrumbs([
@@ -2030,7 +2052,7 @@ export default function BookPage() {
                 {editions.map(e => (
                   <EditionCard key={e.id} edition={e} libraryId={libraryId!} bookId={bookId!}
                     onEdit={setEditionModal}
-                    onDeleted={load}
+                    onDeleted={() => void editionDeleted()}
                     copies={copyControls.copies.filter(c => c.edition_id === e.id)}
                     copyControls={copyControls}
                   />
