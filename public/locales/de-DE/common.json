@@ -654,7 +654,6 @@
   },
   "scan": {
     "start_failed": "Der Barcode-Scanner konnte nicht gestartet werden.",
-    "library_locked": "Beende oder leere die Scan-Sitzung, um die Bibliothek zu wechseln.",
     "one": "Barcode scannen",
     "many": "Mehrere Bücher nacheinander scannen",
     "hint": "Richte die Kamera auf einen Barcode…",
@@ -673,7 +672,8 @@
       "not_found": "Nicht gefunden",
       "error": "Fehlgeschlagen",
       "added": "Hinzugefügt"
-    }
+    },
+    "library_locked": "Beende oder leere die Scan-Sitzung, um die Bibliothek zu wechseln."
   },
   "lookups": {
     "cap_isbn": "ISBN",

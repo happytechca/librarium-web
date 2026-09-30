@@ -654,7 +654,6 @@
   },
   "scan": {
     "start_failed": "Não foi possível iniciar o leitor de código de barras.",
-    "library_locked": "Termine ou limpe a sessão de leitura para trocar de biblioteca.",
     "one": "Ler código de barras",
     "many": "Ler vários livros em sequência",
     "hint": "Aponte a câmera para um código de barras…",
@@ -673,7 +672,8 @@
       "not_found": "Não encontrado",
       "error": "Falhou",
       "added": "Adicionado"
-    }
+    },
+    "library_locked": "Termine ou limpe a sessão de leitura para trocar de biblioteca."
   },
   "lookups": {
     "cap_isbn": "ISBN",

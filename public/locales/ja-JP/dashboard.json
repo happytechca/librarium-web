@@ -67,6 +67,7 @@
     "progress": {
       "title": "おすすめを生成しています…",
       "starting": "実行を開始しています…",
+      "steps_one": "{{count}} step completed",
       "steps_other": "{{count}}ステップ完了"
     },
     "quota": {
