@@ -375,6 +375,8 @@
   .books-actions::-webkit-scrollbar { display: none; }
   .books-actions > * { flex: none; }
   .books-rail        { display: none; }
+  /* Three covers across on a phone, like a shelf; 7rem left room for two. */
+  .books-grid        { grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr)); gap: 14px 12px; }
 
   @container shell (min-width: 64rem) {
     .app-shell-body { flex-direction: row; }
@@ -390,6 +392,7 @@
     .books-spacer     { display: block; }
     .books-actions    { width: auto; overflow-x: visible; }
     .books-rail       { display: block; }
+    .books-grid       { grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); gap: 18px; }
     .app-sidebar {
       position: static;
       /* 238px is the reference rail's width. At 14rem the rail was 14px

@@ -962,7 +962,7 @@ export default function BooksPage() {
           />
         </SidePanel>
 
-        <div className="grid gap-7 lg:grid-cols-[13rem_1fr]">
+        <div className="grid grid-cols-1 gap-7 lg:grid-cols-[13rem_1fr]">
           <aside className="books-rail">
             <FacetRail
               facets={facets}
@@ -973,7 +973,9 @@ export default function BooksPage() {
             />
           </aside>
 
-          <div>
+          {/* min-w-0: a grid item is otherwise as wide as its longest
+              unbreakable title, which pushed the page sideways on a phone. */}
+          <div className="min-w-0">
             <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-content-muted">
               {/* The open view, as a chip in the row that already carries the
                   count and every filter. It used to be a full-width tinted
@@ -1269,7 +1271,7 @@ export default function BooksPage() {
             )}
 
             {entries.length > 0 && layout === 'grid' && (
-              <ul className="grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] items-start gap-[18px]">
+              <ul className="books-grid grid items-start">
                 {entries.map((entry, i) => (
                   <Fragment key={entry.kind === 'series' ? `s:${entry.series_id}` : entry.book.id}>
                   {headingStarts[i] && (
